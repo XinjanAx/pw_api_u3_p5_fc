@@ -2,8 +2,10 @@ package com.example.pw_api_u3_p5_fc.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.pw_api_u3_p5_fc.repository.model.Estudiante;
-import com.example.pw_api_u3_p5_fc.service.IEstudianteService;
+
+import com.example.pw_api_u3_p5_fc.repository.model.Profesor;
+
+import com.example.pw_api_u3_p5_fc.service.IProfesorService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,46 +22,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-
-
 //API: por el proyecto
 //servicio -> controller: clase controller
 @RestController//Servicio
-@RequestMapping(path="/estudiantes")
-public class EstudianteControllerRestFul {
+@RequestMapping(path="/profesores")
+public class ProfesorControllerRestFul {
+
+    //http://localhost:8080/API/v1.0/Matricula/profesores
 
     @Autowired
-    private IEstudianteService estudianteService;
+    private IProfesorService profesorService;
 
+    // /consultar/1
     @GetMapping(path="/consultar/{id}")   
-    public Estudiante consular(@PathVariable Integer id){
-        return estudianteService.buscar(id);
+    public Profesor consular(@PathVariable Integer id){
+        return profesorService.buscar(id);
     }
 
+    // /guardar
     @PostMapping(path="/guardar") 
-    public void guardar(@RequestBody Estudiante estudiante){
-        this.estudianteService.guardar(estudiante);
+    public void guardar(@RequestBody Profesor profesor){
+        this.profesorService.guardar(profesor);
     }
 
+    // /actualizar
     @PutMapping(path="/actualizar")
-    public void actualizar(@RequestBody Estudiante estudiante) {        
-        this.estudianteService.actualizar(estudiante);
+    public void actualizar(@RequestBody Profesor profesor) {        
+        this.profesorService.actualizar(profesor);
     }
 
+    // /actualizarParcial
     @PatchMapping(path="/actualizarParcial")
-    public void actualizarParcial(@RequestBody Estudiante estudiante){
-        this.estudianteService.actualizarParcial(estudiante.getApellido(), estudiante.getNombre(), estudiante.getId());
+    public void actualizarParcial(@RequestBody Profesor profesor){
+        this.profesorService.actualizarParcial(profesor.getApellido(), profesor.getNombre(), profesor.getId());
     }
 
+    // /borrar/5
     @DeleteMapping(path="/borrar/{id}")
     public void borrar(@PathVariable Integer id){
-        this.estudianteService.borrar(id);
+        this.profesorService.borrar(id);
     }
 
-    //http://localhost:8080/API/v1.0/Matricula/estudiantes/consultarTodo?genero=M
+    // /consultarTodo?genero=M
     @GetMapping(path="/consultarTodo")
-    public List<Estudiante> consultarTodo(@RequestParam String genero) {
-        return this.estudianteService.consultarTodo(genero);
+    public List<Profesor> consultarTodo(@RequestParam String genero) {
+        return this.profesorService.consultarTodo(genero);
     }
     
 
