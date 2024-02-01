@@ -1,5 +1,7 @@
 package com.example.pw_api_u3_p5_fc.service;
 
+import java.util.List;
+
 import com.example.pw_api_u3_p5_fc.repository.model.Estudiante;
 
 public interface IEstudianteService {
@@ -8,5 +10,6 @@ public interface IEstudianteService {
     public void actualizarParcial(String apellido, String nombre, Integer Id);
     public Estudiante buscar(Integer id);
     public void borrar(Integer id);
+    public List<Estudiante>consultarTodo(String genero);
     
 }

@@ -1,5 +1,7 @@
 package com.example.pw_api_u3_p5_fc.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.example.pw_api_u3_p5_fc.repository.model.Estudiante;
@@ -13,5 +15,6 @@ public interface IEstudianteRepository {
     public void actualizarParcial(String apellido, String nombre, Integer id);
     public Estudiante seleccionar(Integer id);
     public void eliminar(Integer id);
+    public List<Estudiante> consultarTodo(String genero) ;
     
 }
