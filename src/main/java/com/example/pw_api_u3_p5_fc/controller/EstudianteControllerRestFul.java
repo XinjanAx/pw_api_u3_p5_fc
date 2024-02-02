@@ -31,34 +31,34 @@ public class EstudianteControllerRestFul {
     @Autowired
     private IEstudianteService estudianteService;
 
-    @GetMapping(path="/consultar/{id}")   
+    @GetMapping(path="/{id}")   
     public Estudiante consular(@PathVariable Integer id){
         return estudianteService.buscar(id);
     }
 
-    @PostMapping(path="/guardar") 
+    @PostMapping
     public void guardar(@RequestBody Estudiante estudiante){
         this.estudianteService.guardar(estudiante);
     }
 
-    @PutMapping(path="/actualizar")
+    @PutMapping(path="/{id}")
     public void actualizar(@RequestBody Estudiante estudiante) {        
         this.estudianteService.actualizar(estudiante);
     }
 
-    @PatchMapping(path="/actualizarParcial")
+    @PatchMapping(path="/{id}")
     public void actualizarParcial(@RequestBody Estudiante estudiante){
         this.estudianteService.actualizarParcial(estudiante.getApellido(), estudiante.getNombre(), estudiante.getId());
     }
 
-    @DeleteMapping(path="/borrar/{id}")
+    @DeleteMapping(path="/{id}")
     public void borrar(@PathVariable Integer id){
         this.estudianteService.borrar(id);
     }
 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/consultarTodo?genero=M
-    @GetMapping(path="/consultarTodo")
-    public List<Estudiante> consultarTodo(@RequestParam String genero) {
+    @GetMapping
+    public List<Estudiante> consultarTodo(@RequestParam(required = false, defaultValue = "M") String genero) {
         return this.estudianteService.consultarTodo(genero);
     }
     
