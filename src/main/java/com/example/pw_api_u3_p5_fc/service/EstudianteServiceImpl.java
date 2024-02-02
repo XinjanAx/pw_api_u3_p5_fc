@@ -1,5 +1,7 @@
 package com.example.pw_api_u3_p5_fc.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +41,11 @@ public class EstudianteServiceImpl  implements IEstudianteService{
     public void borrar(Integer id) {
         // TODO Auto-generated method stub
         this.iEstudianteRepository.eliminar(id);
+    }
+
+    @Override
+    public List<Estudiante> consultarTodo(String genero) {
+        // TODO Auto-generated method stub
+        return this.iEstudianteRepository.consultarTodo(genero);
     }
 }
