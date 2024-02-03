@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-//API: por el proyecto
-//servicio -> controller: clase controller
 @RestController//Servicio
 @RequestMapping(path="/profesores")
 public class ProfesorControllerRestFul {
@@ -33,41 +30,41 @@ public class ProfesorControllerRestFul {
     @Autowired
     private IProfesorService profesorService;
 
-    // /consultar/1
-    @GetMapping(path="/consultar/{id}")   
+    // /1
+    @GetMapping(path="/{id}")   
     public Profesor consular(@PathVariable Integer id){
         return profesorService.buscar(id);
     }
 
-    // /guardar
-    @PostMapping(path="/guardar") 
+    //
+    @PostMapping
     public void guardar(@RequestBody Profesor profesor){
         this.profesorService.guardar(profesor);
     }
 
-    // /actualizar
-    @PutMapping(path="/actualizar")
-    public void actualizar(@RequestBody Profesor profesor) {        
+    // /2
+    @PutMapping(path="/{id}")
+    public void actualizar(@RequestBody Profesor profesor, @PathVariable Integer id) {        
+        profesor.setId(id);
         this.profesorService.actualizar(profesor);
     }
 
-    // /actualizarParcial
-    @PatchMapping(path="/actualizarParcial")
-    public void actualizarParcial(@RequestBody Profesor profesor){
-        this.profesorService.actualizarParcial(profesor.getApellido(), profesor.getNombre(), profesor.getId());
+    // /2
+    @PatchMapping(path="/{id}")
+    public void actualizarParcial(@RequestBody Profesor profesor, @PathVariable Integer id){
+        profesor.setId(id);
+        this.profesorService.actualizarParcial(profesor.getNombre(),profesor.getApellido(),profesor.getId());
     }
 
-    // /borrar/5
-    @DeleteMapping(path="/borrar/{id}")
+    // /5
+    @DeleteMapping(path="/{id}")
     public void borrar(@PathVariable Integer id){
         this.profesorService.borrar(id);
     }
 
-    // /consultarTodo?genero=M
-    @GetMapping(path="/consultarTodo")
-    public List<Profesor> consultarTodo(@RequestParam String genero) {
+    // ?genero=M
+    @GetMapping
+    public List<Profesor> consultarTodo(@RequestParam (required = false, defaultValue = "M") String genero) {
         return this.profesorService.consultarTodo(genero);
     }
-    
-
 }
