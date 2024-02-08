@@ -2,7 +2,6 @@ package com.example.pw_api_u3_p5_fc.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.example.pw_api_u3_p5_fc.repository.model.Profesor;
 
 import com.example.pw_api_u3_p5_fc.service.IProfesorService;
@@ -13,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,26 +34,26 @@ public class ProfesorControllerRestFul {
     private IProfesorService profesorService;
 
     // /1
-    @GetMapping(path="/{id}")   
-    public Profesor consular(@PathVariable Integer id){
-        return profesorService.buscar(id);
+    @GetMapping(path="/{id}",produces = "application/xml")
+    public ResponseEntity<Profesor> consular(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).body(profesorService.buscar(id));
     }
 
     //
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public void guardar(@RequestBody Profesor profesor){
         this.profesorService.guardar(profesor);
     }
 
     // /2
-    @PutMapping(path="/{id}")
+    @PutMapping(path="/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public void actualizar(@RequestBody Profesor profesor, @PathVariable Integer id) {        
         profesor.setId(id);
         this.profesorService.actualizar(profesor);
     }
 
     // /2
-    @PatchMapping(path="/{id}")
+    @PatchMapping(path="/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public void actualizarParcial(@RequestBody Profesor profesor, @PathVariable Integer id){
         profesor.setId(id);
         this.profesorService.actualizarParcial(profesor.getNombre(),profesor.getApellido(),profesor.getId());
@@ -63,8 +66,12 @@ public class ProfesorControllerRestFul {
     }
 
     // ?genero=M
-    @GetMapping
-    public List<Profesor> consultarTodo(@RequestParam (required = false, defaultValue = "M") String genero) {
-        return this.profesorService.consultarTodo(genero);
+    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<Profesor>> consultarTodo(@RequestParam (required = false, defaultValue = "M") String genero) {
+        var lista_prof = profesorService.consultarTodo(genero);
+        HttpHeaders heder = new HttpHeaders();
+        heder.add("mensaje 242", "Recurso encontrado, lista creada");
+        heder.add("info", "sistema en linea");
+        return new ResponseEntity<>(lista_prof,heder,242);
     }
 }
