@@ -4,6 +4,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.pw_api_u3_p5_fc.repository.model.Estudiante;
 import com.example.pw_api_u3_p5_fc.service.IEstudianteService;
+import com.example.pw_api_u3_p5_fc.service.IMateriaService;
+import com.example.pw_api_u3_p5_fc.service.to.EstudianteTO;
+import com.example.pw_api_u3_p5_fc.service.to.MateriaTO;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +37,8 @@ public class EstudianteControllerRestFul {
 
     @Autowired
     private IEstudianteService estudianteService;
+    @Autowired
+	private IMateriaService materiaService;
 
 
     //metodos = capacidades
@@ -72,7 +77,7 @@ public class EstudianteControllerRestFul {
     }
 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/consultarTodo?genero=M
-    @GetMapping (produces = MediaType.APPLICATION_XML_VALUE)
+    @GetMapping (path = "/tmp", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<List<Estudiante>> consultarTodo(@RequestParam(required = false, defaultValue = "M") String genero) {
         var list_est = estudianteService.consultarTodo(genero);
         HttpHeaders heder = new HttpHeaders();
@@ -80,4 +85,18 @@ public class EstudianteControllerRestFul {
         heder.add("info", "sistema en linea");
         return new ResponseEntity<>(list_est,heder,242);
     }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<EstudianteTO>> consultarTodosHateoas() {
+		List<EstudianteTO> ls = this.estudianteService.consultarTodoTO();
+		return ResponseEntity.status(HttpStatus.OK).body(ls);
+	}
+
+    // http://localhost:8080/API/v1.0/Matricula/estudiantes/1/materias
+    @GetMapping(path = "/{id}/materias", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MateriaTO>> consultarMateriasPorId(@PathVariable Integer id){
+		List<MateriaTO> ls = this.materiaService.selecionarPorIDEstrudiante(id);
+		return ResponseEntity.status(HttpStatus.OK).body(ls);
+	}
+
 }
