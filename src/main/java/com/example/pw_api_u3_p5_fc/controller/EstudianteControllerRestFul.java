@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +27,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 //API: por el proyecto
@@ -40,14 +42,19 @@ public class EstudianteControllerRestFul {
     @Autowired
 	private IMateriaService materiaService;
 
-
-    //metodos = capacidades
-    @GetMapping(path="/{id}",produces = "application/xml")   
-    public ResponseEntity<Estudiante> consular(@PathVariable Integer id){
+    //                                              /json
+    //metodos = capacidades           = "application/xml"
+    @GetMapping(path="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)   
+    public ResponseEntity<EstudianteTO> consular(@PathVariable Integer id){
         //240: grupo satisfaccion
         //240 Estudiante encontrado: recurso existente
+        EstudianteTO est = this.estudianteService.buscarTO(id);
+        Link link = linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(est.getId())).withRel("materias");
+        est.add(link);
 
-        return ResponseEntity.status(HttpStatus.OK).body(estudianteService.buscar(id));
+        Link link2 = linkTo(methodOn(EstudianteControllerRestFul.class).consular(est.getId())).withSelfRel();
+        est.add(link2);
+        return ResponseEntity.status(HttpStatus.OK).body(est);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
@@ -89,6 +96,11 @@ public class EstudianteControllerRestFul {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EstudianteTO>> consultarTodosHateoas() {
 		List<EstudianteTO> ls = this.estudianteService.consultarTodoTO();
+        for(EstudianteTO esto: ls){
+            Link link = linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(esto.getId())).withRel("materias");
+            esto.add(link);
+        }
+
 		return ResponseEntity.status(HttpStatus.OK).body(ls);
 	}
 

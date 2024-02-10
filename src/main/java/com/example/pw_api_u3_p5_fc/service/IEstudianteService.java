@@ -10,6 +10,8 @@ public interface IEstudianteService {
     public void actualizar(Estudiante estudiante);
     public void actualizarParcial(String apellido, String nombre, Integer Id);
     public Estudiante buscar(Integer id);
+    public EstudianteTO buscarTO(Integer id);
+
     public void borrar(Integer id);
     public List<Estudiante>consultarTodo(String genero);
     public List<EstudianteTO>consultarTodoTO();

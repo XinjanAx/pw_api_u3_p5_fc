@@ -3,6 +3,7 @@ package com.example.pw_api_u3_p5_fc.repository.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
