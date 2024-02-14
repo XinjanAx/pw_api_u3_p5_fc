@@ -48,13 +48,7 @@ public class EstudianteControllerRestFul {
     public ResponseEntity<EstudianteTO> consular(@PathVariable Integer id){
         //240: grupo satisfaccion
         //240 Estudiante encontrado: recurso existente
-        EstudianteTO est = this.estudianteService.buscarTO(id);
-        Link link = linkTo(methodOn(EstudianteControllerRestFul.class).consultarMateriasPorId(est.getId())).withRel("materias");
-        est.add(link);
-
-        Link link2 = linkTo(methodOn(EstudianteControllerRestFul.class).consular(est.getId())).withSelfRel();
-        est.add(link2);
-        return ResponseEntity.status(HttpStatus.OK).body(est);
+        return ResponseEntity.status(HttpStatus.OK).body(this.estudianteService.buscarTO(id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)

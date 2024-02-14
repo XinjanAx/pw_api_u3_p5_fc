@@ -44,7 +44,7 @@ public class Estudiante10RepositoryImpl implements IEstudiante10Repository{
     @Override
     public List<Estudiante10> consultarTodo()  {
         // TODO Auto-generated method stub
-        var query = this.entityManager.createQuery("SELECT e Estudiante FROM Estudiante e", Estudiante10.class);
+        var query = this.entityManager.createQuery("SELECT e FROM Estudiante10 e", Estudiante10.class);
         return query.getResultList();
     }
     
