@@ -12,6 +12,7 @@ import com.example.pw_api_u3_p5_fc.service.to.EstudianteTO;
 
 @Service
 public class EstudianteServiceImpl  implements IEstudianteService{
+
     @Autowired
     private IEstudianteRepository iEstudianteRepository;
 
@@ -37,6 +38,12 @@ public class EstudianteServiceImpl  implements IEstudianteService{
     public Estudiante buscar(Integer id) {
         // TODO Auto-generated method stub
         return this.iEstudianteRepository.seleccionar(id);
+    }
+
+    @Override
+    public EstudianteTO buscarTO(Integer id) {
+        // TODO Auto-generated method stub
+        return this.canvertir(this.buscar(id));
     }
 
     @Override
@@ -70,14 +77,5 @@ public class EstudianteServiceImpl  implements IEstudianteService{
         estTO.setFechaNacimiento(est.getFechaNacimiento());
         estTO.setId(est.getId());
         return estTO;
-
     }
-
-    @Override
-    public EstudianteTO buscarTO(Integer id) {
-        // TODO Auto-generated method stub
-        return this.canvertir(this.buscar(id));
-    }
-
-
 }
