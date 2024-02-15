@@ -1,5 +1,6 @@
 package com.example.pw_api_u3_p5_fc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.pw_api_u3_p5_fc.repository.IEstudianteRepository;
 import com.example.pw_api_u3_p5_fc.repository.model.Estudiante;
+import com.example.pw_api_u3_p5_fc.service.to.EstudianteTO;
 
 @Service
 public class EstudianteServiceImpl  implements IEstudianteService{
+
     @Autowired
     private IEstudianteRepository iEstudianteRepository;
 
@@ -38,6 +41,12 @@ public class EstudianteServiceImpl  implements IEstudianteService{
     }
 
     @Override
+    public EstudianteTO buscarTO(Integer id) {
+        // TODO Auto-generated method stub
+        return this.canvertir(this.buscar(id));
+    }
+
+    @Override
     public void borrar(Integer id) {
         // TODO Auto-generated method stub
         this.iEstudianteRepository.eliminar(id);
@@ -47,5 +56,26 @@ public class EstudianteServiceImpl  implements IEstudianteService{
     public List<Estudiante> consultarTodo(String genero) {
         // TODO Auto-generated method stub
         return this.iEstudianteRepository.consultarTodo(genero);
+    }
+
+    @Override
+    public List<EstudianteTO> consultarTodoTO() {
+        // TODO Auto-generated method stub
+        var lista = iEstudianteRepository.consultarTodo("M");
+        List<EstudianteTO> listaTO = new ArrayList<>();
+        for(Estudiante e:lista){
+            listaTO.add(canvertir(e));
+        }
+        return listaTO;
+    }
+
+    private EstudianteTO canvertir(Estudiante est){
+        EstudianteTO estTO = new EstudianteTO();
+        estTO.setNombre(est.getNombre());
+        estTO.setApellido(est.getApellido());
+        estTO.setGenero(est.getGenero());
+        estTO.setFechaNacimiento(est.getFechaNacimiento());
+        estTO.setId(est.getId());
+        return estTO;
     }
 }

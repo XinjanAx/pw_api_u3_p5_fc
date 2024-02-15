@@ -1,25 +1,21 @@
 package com.example.pw_api_u3_p5_fc.repository.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "estudiante")
-public class Estudiante {
-    
+@Table(name = "estudiante10")
+public class Estudiante10 {
     @Id
-    @GeneratedValue(generator = "seq_estudiante", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "seq_estudiante", sequenceName = "seq_estudiante", allocationSize = 1)
+    @GeneratedValue(generator = "seq_estudiante10", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "seq_estudiante10", sequenceName = "seq_estudiante10", allocationSize = 1)
     @Column(name = "estu_id")
     private Integer id;
 
@@ -29,16 +25,28 @@ public class Estudiante {
     @Column(name = "estu_apellido")
     private String apellido;
 
+    @Column(name = "estu_cedula")
+    private String cedula;
+
     @Column(name = "estu_genero")
     private String genero;
 
     @Column(name = "estu_fecha_nacimiento")
     private LocalDateTime fechaNacimiento;
 
-    @OneToMany(mappedBy = "estudiante")
-    private List<Materia> materias;
+    @Column(name = "estu_sangre")
+    private String sangre;
 
-    // GET Y SET
+    @Column(name = "estu_matricula")
+    private String matricula;
+
+    @Column(name = "estu_semestre")
+    private Byte semestre;
+
+    @Column(name = "estu_gratuidad")
+    private Boolean gratuidad;
+    
+    //get set
     public Integer getId() {
         return id;
     }
@@ -63,6 +71,14 @@ public class Estudiante {
         this.apellido = apellido;
     }
 
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
     public String getGenero() {
         return genero;
     }
@@ -79,11 +95,35 @@ public class Estudiante {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public List<Materia> getMaterias() {
-		return materias;
-	}
+    public String getSangre() {
+        return sangre;
+    }
 
-	public void setMaterias(List<Materia> materias) {
-		this.materias = materias;
-	}
+    public void setSangre(String sangre) {
+        this.sangre = sangre;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public Byte getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(Byte semestre) {
+        this.semestre = semestre;
+    }
+
+    public Boolean getGratuidad() {
+        return gratuidad;
+    }
+
+    public void setGratuidad(Boolean gratuidad) {
+        this.gratuidad = gratuidad;
+    }  
 }
