@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import com.example.pw_api_u3_p5_fc.repository.model.Estudiante;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import jakarta.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 @Repository
 @Transactional

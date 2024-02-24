@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.pw_api_u3_p5_fc.repository.model.Materia;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 @Repository
 @Transactional
