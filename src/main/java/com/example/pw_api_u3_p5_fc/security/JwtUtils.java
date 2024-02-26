@@ -1,28 +1,35 @@
 package com.example.pw_api_u3_p5_fc.security;
 
-import io.jsonwebtoken.Jwts;
- import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureException;
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class JwtUtils {
 
-    private static final Logger LOG=LoggerFactory.getLogger(JwtUtils.class);
+    @Value("${app.jwt.secret}")
+    private String jwtSecret;
 
     public boolean validateJwtToken(String authToken){
         try{
-            Jwts.parser().setSigningKey("semillaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-            .parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
-        }catch(Exception e){
-            LOG.error("ERRoRRRRRRRR", e);
+        }catch(ExpiredJwtException e){
+            log.error(" Token expirado: {}",e.getMessage());
+        }
+        catch(SignatureException e){
+            log.error(" Token invalido: {}",e.getMessage());
         }
         return false;
     }
 
     public String getUserNameFromJetToken(String token){
-        return Jwts.parser().setSigningKey("semillaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        return Jwts.parser().setSigningKey(jwtSecret)
         .parseClaimsJws(token).getBody().getSubject();
     }
 }
